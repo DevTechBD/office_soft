@@ -15,7 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from mainApp import views
+from mainApp.views import *
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.get_home_page, name="base"),
+    
+    # Login
+    path('login/', views.admin_login, name="admin_login"),
+    path('logout/', views.admin_logout, name="admin_logout"),
+    
+    # Employee Details Path
+    
+    path('details/<int:id>', views.get_emp_details, name="get_emp_details"),
+
+    
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
